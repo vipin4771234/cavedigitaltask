@@ -1,0 +1,36 @@
+{
+  "name": "cavedigitaltask",
+  "version": "1.0.0",
+  "description": "cave digital",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "vipin",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "celebrate": "^15.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "eslint": "^9.7.0",
+    "express": "^4.19.2",
+    "i": "^0.3.7",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.1",
+    "mongoose-autopopulate": "^1.1.0",
+    "mongoose-to-swagger": "^1.5.1",
+    "node-fetch": "^3.3.2",
+    "nodemon": "^3.1.4",
+    "npm": "^10.8.2",
+    "prettier": "^3.3.3",
+    "uuid": "^10.0.0",
+    "validator": "^13.12.0"
+  }
+}
