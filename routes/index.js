@@ -13,7 +13,7 @@ router.use("/api/user", userRoutes);
 router.use("/api/task", taskRoutes);
 
 router.get("/", (req, res) => {
-  res.send("Welcome to Mealigo");
+  res.send("Welcome to CaveTask");
 });
 
 export default router;
