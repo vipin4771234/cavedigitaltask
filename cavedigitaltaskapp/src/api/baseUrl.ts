@@ -1,0 +1,1 @@
+export const baseUrl = 'https://cavedigitaltask-production.up.railway.app/api'

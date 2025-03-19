@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import UserSlice from './UserSlice';
+import TaskSlice from './TaskSlice';
 // ...
 
 const store = configureStore({
   reducer: {
     users: UserSlice,
+    tasks: TaskSlice
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     immutableCheck: { warnAfter: 1000 },

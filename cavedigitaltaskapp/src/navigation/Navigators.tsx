@@ -11,6 +11,7 @@ import {login} from '../store/UserSlice';
 import HomeScreen from '../Screens/Home/HomeScreen';
 import IconComponent from '../component/Icon/IconComponent';
 import { scale } from '../utils/mixins';
+import SignUpScreen from '../Screens/Auth/SignUpScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -66,6 +67,11 @@ console.log("navigator")
               options={{headerShown: false}}
               name="LoginScreen"
               component={LoginScreen}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="SignUpScreen"
+              component={SignUpScreen}
             />
           </>
         ) : (

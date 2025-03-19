@@ -8,8 +8,9 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
+  Keyboard,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {StackActions, useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
@@ -23,18 +24,45 @@ import Animated, {
   useAnimatedStyle,
 } from 'react-native-reanimated';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {loginApi} from '../../api/auth';
-import {login} from '../../store/UserSlice';
+import { signUp } from '../../api/auth';
 
-const LoginScreen = () => {
+const SignUpScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({emailError: '', passwordError: ''});
+  const [error, setError] = useState({
+    emailError: '',
+    passwordError: '',
+    nameError: '',
+  });
   const dispatch = useDispatch();
   const screenWidth = Dimensions.get('screen').width;
   const screenHeight = Dimensions.get('screen').height;
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setIsKeyboardVisible(true);
+      },
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setIsKeyboardVisible(false);
+      },
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   const keyboard = useAnimatedKeyboard();
 
   const animatedStyles = useAnimatedStyle(() => ({
@@ -43,8 +71,13 @@ const LoginScreen = () => {
 
   const validate = () => {
     let valid = true;
-    let err = {emailError: '', passwordError: ''};
+    let err = {emailError: '', passwordError: '', nameError: ''};
     console.log({email});
+    if (!name) {
+      ToastAndroid.show('Enter Your name', ToastAndroid.LONG);
+      // setError({...error,phoneError: 'This Field is required'})
+      valid = false;
+    }
     if (!email) {
       ToastAndroid.show('Enter Your email', ToastAndroid.LONG);
       // setError({...error,phoneError: 'This Field is required'})
@@ -56,7 +89,11 @@ const LoginScreen = () => {
       valid = false;
     }
 
-    setError({emailError: err.emailError, passwordError: err.passwordError});
+    setError({
+      emailError: err.emailError,
+      passwordError: err.passwordError,
+      nameError: err.nameError,
+    });
     return valid;
   };
 
@@ -66,21 +103,12 @@ const LoginScreen = () => {
     if (!validate()) return;
     try {
       setLoading(true);
-      const data = await loginApi({
+      const data = await signUp({
+        name: name,
         email: email,
         password: password,
       });
       console.log(data);
-      if (data?.user) {
-        AsyncStorage.setItem(
-          'user',
-          JSON.stringify({...data.user, token: data.token}),
-        );
-        dispatch(login({...data.user, token: data.token}));
-        // navigation.navigate('HomeScreen');
-      } else {
-        ToastAndroid.show('Wrong email or password', ToastAndroid.LONG);
-      }
     } catch (error) {
     } finally {
       setLoading(false);
@@ -127,9 +155,20 @@ const LoginScreen = () => {
               fontFamily: 'Montserrat-Bold',
               alignSelf: 'center',
             }}>
-            Login to your account
+            Create new account
           </Text>
           <View style={{height: '5%'}} />
+          <Input
+            value={name}
+            label={''}
+            leftIcon={''}
+            leftText={'Name:'}
+            placeholder="Enter your name"
+            inputStyle={{paddingLeft: scale(100), height: scale(50)}}
+            error={error.nameError}
+            onChangeText={(val: any) => setName(val)}
+            onFocus={() => setError({...error, nameError: ''})}
+          />
           <Input
             value={email}
             label={''}
@@ -153,15 +192,15 @@ const LoginScreen = () => {
             onFocus={() => setError({...error, passwordError: ''})}
           />
           <CommonButton
-            text={'Login'}
+            text={'SignUp'}
             loading={loading}
             onPress={() => onSubmit()}
           />
           {/* <CommonButton
-            text={'SignOut'}
-            loading={loading}
-            onPress={() => signOut()}
-          /> */}
+              text={'SignOut'}
+              loading={loading}
+              onPress={() => signOut()}
+            /> */}
           <View
             style={{
               width: '100%',
@@ -169,10 +208,9 @@ const LoginScreen = () => {
               flexDirection: 'row',
               justifyContent: 'center',
             }}></View>
-
           <Text
             onPress={() => {
-              navigation.navigate('SignUpScreen');
+              navigation.replace('LoginScreen');
             }}
             style={[
               styles.text,
@@ -183,8 +221,26 @@ const LoginScreen = () => {
                 fontSize: scale(16),
               },
             ]}>
-            Go To SignUp
+            Go To Login
           </Text>
+          {isKeyboardVisible ? (
+            <></>
+          ) : (
+            <Text
+              style={[
+                styles.text,
+                {position: 'absolute', bottom: 20, left: 20},
+              ]}>
+              By clicking, I accept the{' '}
+              <Text style={[styles.text, {fontFamily: 'Montserrat-Bold'}]}>
+                Terms and Conditions
+              </Text>{' '}
+              and{' '}
+              <Text style={[styles.text, {fontFamily: 'Montserrat-Bold'}]}>
+                Privacy Policy
+              </Text>
+            </Text>
+          )}
           <View style={{height: '5%'}} />
         </View>
       </Animated.View>
@@ -192,7 +248,7 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
   container: {

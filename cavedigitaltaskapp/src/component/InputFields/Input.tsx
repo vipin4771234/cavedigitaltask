@@ -2,11 +2,13 @@ import {View, Text, TextInput, StyleSheet, Pressable} from 'react-native';
 import React from 'react';
 import {scale} from '../../utils/mixins';
 import IconComponent from '../Icon/IconComponent';
-import { fontMontserrat } from '../../utils/fontUtils';
+import {fontMontserrat} from '../../utils/fontUtils';
 
 const Input = ({
   label = '',
   placeholder = '',
+  leftIcon,
+  leftText = '',
   error = '',
   value,
   onChangeText,
@@ -18,7 +20,7 @@ const Input = ({
   showPassword = false,
   keyboardType = 'default',
   onEyePress,
-  ref
+  ref,
 }: any) => {
   return (
     <View style={[localStyles.container, containerStyle]}>
@@ -28,7 +30,33 @@ const Input = ({
           <Pressable
             onPress={() => (onEyePress ? onEyePress() : () => {})}
             style={{position: 'absolute', top: scale(15), left: scale(15)}}>
-            <Text style={{fontSize: scale(15),color: '#3c3c3c', fontWeight: '500'}}>+91</Text>
+            <Text
+              style={{
+                fontSize: scale(15),
+                color: '#3c3c3c',
+                fontWeight: '500',
+                textAlignVertical: 'center',
+              }}>
+              +91
+            </Text>
+          </Pressable>
+        ) : (
+          <></>
+        )}
+        {leftIcon ? <></> : <></>}
+        {leftText ? (
+          <Pressable
+            onPress={() => (onEyePress ? onEyePress() : () => {})}
+            style={{position: 'absolute', top: scale(15), left: scale(15)}}>
+            <Text
+              style={{
+                fontSize: scale(15),
+                color: '#3c3c3c',
+                fontWeight: '500',
+                textAlignVertical: 'center',
+              }}>
+              {leftText}
+            </Text>
           </Pressable>
         ) : (
           <></>
@@ -95,7 +123,7 @@ const localStyles = StyleSheet.create({
     fontSize: scale(15),
     color: '#3c3c3c',
     marginBottom: scale(10),
-    fontFamily: 'Montserrat-Regular'
+    fontFamily: 'Montserrat-Regular',
   },
   inputStyle: {
     borderWidth: 1,

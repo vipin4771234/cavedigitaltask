@@ -8,16 +8,16 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 const Search = () => {
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
   return (
-    <Pressable style={styles.container} onPress={() => navigation.navigate('SearchScreen')}>
-      <Text style={styles.searchPlaceholder}>Search for 'Tiffin'</Text>
-      <View style={{paddingLeft: scale(10), borderLeftWidth: 1, borderLeftColor: 'lightgray'}}>
-        <IconComponent
+    <Pressable style={styles.container}>
+      <Text style={styles.searchPlaceholder}>Search for 'Tasks'</Text>
+      <View style={{paddingLeft: scale(10), borderLeftWidth: 1, borderLeftColor: 'lightgray',}}>
+        {/* <IconComponent
           // style={{alignSelf: 'flex-end'}}
           iconType="MaterialCommunityIcons"
           iconName={'magnify'}
           size={25}
           color={'#3c3c3c'}
-        />
+        /> */}
       </View>
     </Pressable>
   );
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     paddingVertical: scale(10),
     backgroundColor: '#fff',
     borderRadius: scale(20),
-    elevation: 1,
+    // elevation: 1,
   },
   searchPlaceholder: {
     color: '#808080',

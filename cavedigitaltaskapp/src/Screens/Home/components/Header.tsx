@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, StatusBar} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, Pressable} from 'react-native';
 import React from 'react';
 import IconComponent from '../../../component/Icon/IconComponent';
 import {scale} from '../../../utils/mixins';
@@ -7,26 +7,11 @@ const Header = () => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="#e0605c" />
-      <View style={{flex: 1}}>
+      <View style={{flex: 1,paddingHorizontal:20,paddingVertical:10}}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Text style={styles.addressOne}>Dhundahera Village</Text>
-          <IconComponent
-            // style={{alignSelf: 'flex-end'}}
-            iconType="MaterialCommunityIcons"
-            iconName={'chevron-down'}
-            size={25}
-            color={'#3c3c3c'}
-          />
+          <Text style={styles.addressOne}>Cave Task</Text>
         </View>
-        <Text style={styles.addressTwo}>sector 20, Gurugram</Text>
-      </View>
-      <View style={{width: '30%', alignItems: 'flex-end'}}>
-        <IconComponent
-          iconType="MaterialCommunityIcons"
-          iconName={'account-circle'}
-          size={45}
-          color={'#e0605c'}
-        />
+        <Text style={styles.addressTwo}>Task list</Text>
       </View>
     </View>
   );
