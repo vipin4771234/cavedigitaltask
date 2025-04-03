@@ -19,12 +19,14 @@ import {fetchAllTasks} from '../../api/tasksApi';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../store';
 import {setTasksList} from '../../store/TaskSlice';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const taskList = useSelector((state: RootState) => state.tasks.tasks);
-
-  console.log("sdfsdf",taskList);
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  console.log('sdfsdf', taskList);
 
   useEffect(() => {
     fetchTasks();
@@ -43,26 +45,28 @@ const HomeScreen = () => {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{flex: 1}}>
       <View style={{flex: 1}}>
-        {/* <ImageBackground
-          source={require('../../assets/monthlyPlan.png')}
-          resizeMode="contain"
-          style={styles.image}> */}
         <Header />
         <View style={{height: scale(10)}} />
-        {/* </ImageBackground> */}
         <View style={styles.container}>
           <Search />
           <View style={{height: scale(20)}} />
           <DividerLine text={'Tasks'} />
-          {taskList && taskList.length ? 
-          <></>
-        :<View style={{alignItems: 'center', marginTop: scale(20)}}>
-          <Text style={{fontFamily: 'Montserrat-Bold', color: '#000'}}>No Task Found</Text>
-          <Text style={{fontFamily: 'Montserrat-Bold', color: '#000'}}>Please Add Task</Text>
-          </View>}
+          {taskList && taskList.length ? (
+            <></>
+          ) : (
+            <View style={{alignItems: 'center', marginTop: scale(20)}}>
+              <Text style={{fontFamily: 'Montserrat-Bold', color: '#000'}}>
+                No Task Found
+              </Text>
+              <Text style={{fontFamily: 'Montserrat-Bold', color: '#000'}}>
+                Please Add Task
+              </Text>
+            </View>
+          )}
         </View>
       </View>
       <Pressable
+        onPress={() => navigation.navigate('TaskDetailScreen')}
         style={{
           position: 'absolute',
           bottom: 0,

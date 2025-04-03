@@ -12,6 +12,7 @@ import HomeScreen from '../Screens/Home/HomeScreen';
 import IconComponent from '../component/Icon/IconComponent';
 import { scale } from '../utils/mixins';
 import SignUpScreen from '../Screens/Auth/SignUpScreen';
+import TaskDetailScreen from '../Screens/Home/TaskDetailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -75,11 +76,18 @@ console.log("navigator")
             />
           </>
         ) : (
+          <>
           <Stack.Screen
             options={{headerShown: false}}
             name="HomeScreen"
             component={HomeScreen}
-          />
+            />
+          <Stack.Screen
+            options={{headerShown: true}}
+            name="TaskDetailScreen"
+            component={TaskDetailScreen}
+            />
+            </>
         )}
       </Stack.Navigator>
     </NavigationContainer>
